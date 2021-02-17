@@ -11,7 +11,7 @@ namespace SharkFamilyTree
         public string lastname { get; set; }
         public int birthYear { get; set; }
         public int deathYear { get; set; }
-        public int parent1ID { get; set; }
-        public int parent2ID { get; set; }
+        public int parent1Id { get; set; }
+        public int parent2Id { get; set; }
     }
 }

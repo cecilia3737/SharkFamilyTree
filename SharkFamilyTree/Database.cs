@@ -9,7 +9,6 @@ namespace SharkFamilyTree
 {
     class Database
     {
-        //Kopplar till databas, går att ändra:
         public string connectionString { get; set; } = @"Data Source=.\SQLEXPRESS;Integrated Security=true;database={0}";
         public string DatabaseName { get; set; } = "testdatabase";
         public string TableName { get; set; }
@@ -17,7 +16,7 @@ namespace SharkFamilyTree
         public void CreateDatabase(string newdatabase)
         {
             var databas = new Database();
-            var sql = "CREATE DATABASE " + newdatabase;
+            var sql = $@"CREATE DATABASE {newdatabase}";
 
             try
             {
@@ -39,10 +38,10 @@ namespace SharkFamilyTree
 
             string sql = $@"CREATE TABLE [dbo].{TableName}(
 	                    [Id] [int] IDENTITY(1,1) NOT NULL,
-	                    [FName] [nvarchar](50) NULL,
-	                    [LName] [nvarchar](50) NULL,
-	                    [BYear] [int] NULL,
-	                    [DYear] [int] NULL,
+	                    [Firstname] [nvarchar](50) NULL,
+	                    [Lastname] [nvarchar](50) NULL,
+	                    [Birthyear] [int] NULL,
+	                    [Deathyear] [int] NULL,
 	                    [Parent1] [int] NULL,
 	                    [Parent2] [int] NULL
                         ) ON [PRIMARY]";
@@ -59,12 +58,29 @@ namespace SharkFamilyTree
             }
         }
 
+        //Add person/shark to database
+        public void AddPerson(PersonsOrSharks Shark)
+        {
+            string sql = $"INSERT INTO {TableName} (Firstname, Lastname, Birthyear, Deathyear, Parent1, Parent2) VALUES (@FName, @LName, @BYear, @DYear, @Mother, @Father)";
+
+            var parameters = new (string, string)[]
+            {
+                ("@FName", Shark.firstname),
+                ("@LName", Shark.lastname),
+                ("@BYear", Shark.birthYear.ToString()),
+                ("@DYear", Shark.deathYear.ToString()),
+                ("@Mother", Shark.parent1Id.ToString()),
+                ("@Father", Shark.parent2Id.ToString()),
+            };
+            ExecuteSQLWithPar(sql, parameters);
+        }
+
         //SQL method without parameters
         private void ExecuteSQL(string sql)
         {
             var cnn = OpenConnection();
             var cmd = new SqlCommand(sql, cnn);
-            Console.WriteLine($"{cmd.ExecuteNonQuery()} rows affected!");
+            cmd.ExecuteNonQuery();
             cnn.Close();
         }
 
