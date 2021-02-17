@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharkFamilyTree", "SharkFamilyTree\SharkFamilyTree.csproj", "{FC6F090F-1CB6-48CE-B991-DED7C087216E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC6F090F-1CB6-48CE-B991-DED7C087216E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC6F090F-1CB6-48CE-B991-DED7C087216E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC6F090F-1CB6-48CE-B991-DED7C087216E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC6F090F-1CB6-48CE-B991-DED7C087216E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1335A4EB-22AD-4A32-9019-36FCBCC3D5FE}
+	EndGlobalSection
+EndGlobal
