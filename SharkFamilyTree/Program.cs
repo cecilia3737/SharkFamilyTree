@@ -18,88 +18,99 @@ namespace SharkFamilyTree
 
             Console.WriteLine($"_______________________________________________________" +
                 $"\n" +
-                $"\nGrandma and Grandpa Shark get a babyboy-shark." +
-                $"\nThis is the Shark-family: ");
+                $"\n Grandma and Grandpa Shark get a babyboy-shark." +
+                $"\n This is the Shark-family: ");
             //TODO: db.ListOfFamily(Shark);
+            Console.ReadKey();
 
-            Console.WriteLine($"Daddy meet Mommy Von Sharkton." +
-                $"\nDaddy get to meet Mommy Von Sharktons father: Grandpapy Von Sharkton." +
-                $"\nSadly Granny Von Sharkton passed away a few years ago.");
+            Console.WriteLine($"" +
+                $"\n Daddy Shark meet Mommy Von Sharkton." +
+                $"\n Daddy get to meet Mommy Von Sharktons father: Granpapy Von Sharkton." +
+                $"\n Sadly Granny Von Sharkton passed away a few years ago.");
             //TODO: db.AddParents(Mommy, Von Sharkton, Grandpapy, Von Sharkton, Granny, Von Sharkton);
+            Console.ReadKey();
 
-            Console.WriteLine($"Daddy learns that Mommy have siblings." +
-                $"\nMommy Von Sharktons siblings:");
+            Console.WriteLine($"" +
+                $"\n Daddy learns that Mommy have siblings." +
+                $"\n Mommy Von Sharktons siblings:");
             //TODO: db.ListSiblings(Mommy, Von Sharkton);
+            Console.ReadKey();
 
-            Console.WriteLine($"Daddy and Mommy get married.");
+            Console.WriteLine($"" +
+                $"\n Daddy Shark and Mommy Von Sharkton get married.");
             //TODO: db.UpdateName(Mommy, Von Sharkton, Mommy, Shark);
+            Console.ReadKey();
 
-            Console.WriteLine($"SCANDAL!! In the Shark-family, Grandpapy Von Sharkton had an" +
-                $"\naffair with unknown shark. Mama Shark got a half sibling, Uncle Von Sharkton.");
+            Console.WriteLine($"" +
+                $"\n SCANDAL!! In the Shark-family, Granpapy Von Sharkton had an" +
+                $"\n affair with unknown shark. Mama Shark got a half sibling, Uncle Von Sharkton.");
 
             string firstname = "Uncle";
             string lastname = "Von Sharkton";
             int birthYear = 1986;
-            //int parentID = db.GetPersonID(Grandpapy, Von Sharkton);
+            int parentID = db.GetSharkId("Granpapy", "Von Sharkton");
 
             db.AddPerson(new PersonsOrSharks 
             { 
                 firstname = firstname, 
                 lastname = lastname, 
                 birthYear = birthYear, 
-                parent2Id = 0 
+                parent2Id = parentID 
             });
 
-            Console.WriteLine($"This is Mommy Sharks siblings:");
+            Console.WriteLine($"" +
+                $"\n This is Mommy Sharks siblings:");
             //TODO: db.ListSiblings(Mommy, Shark);
+            Console.ReadKey();
 
-            Console.WriteLine($"In 2016, Mommy and Daddy Shark got a baby, Baby-Yellow Shark.");
+            Console.WriteLine($"" +
+                $"\n In 2016, Mommy and Daddy Shark got a baby, Baby-Yellow Shark.");
             
             firstname = "Baby-Yellow";
             lastname = "Shark";
             birthYear = 2016;
-            //TODO: int parent1ID = db.GetSharkId(Mommy, Shark);
-            //TODO: int parent1ID = db.GetSharkId(Daddy, Shark);
+            int parent1ID = db.GetSharkId("Mommy", "Shark");
+            int parent2ID = db.GetSharkId("Daddy", "Shark");
 
             db.AddPerson(new PersonsOrSharks
             {
                 firstname = firstname,
                 lastname = lastname,
                 birthYear = birthYear,
-                parent1Id = 0,
-                parent2Id = 0
+                parent1Id = parent1ID,
+                parent2Id = parent2ID
             });
+            Console.ReadKey();
 
-            Console.WriteLine($"Two years later, Baby-Yellow got two sibling!" +
-                $"\nThe twins was born, Baby-Blue and Baby-Pink");
+            Console.WriteLine($"" +
+                $"\n Two years later, Baby-Yellow got two sibling!" +
+                $"\n The twins was born, Baby-Blue and Baby-Pink");
 
-            firstname = "Baby-Yellow";
+            firstname = "Baby-Blue";
             lastname = "Shark";
             birthYear = 2018;
-            //TODO: int parent1ID = db.GetPersonID(Mommy, Shark);
-            //TODO: int parent1ID = db.GetPersonID(Daddy, Shark);
 
             db.AddPerson(new PersonsOrSharks
             {
                 firstname = firstname,
                 lastname = lastname,
                 birthYear = birthYear,
-                parent1Id = 0,
-                parent2Id = 0
+                parent1Id = parent1ID,
+                parent2Id = parent2ID
             });
 
-            firstname = "Baby-Yellow";
+            firstname = "Baby-Pink";
 
             db.AddPerson(new PersonsOrSharks
             {
                 firstname = firstname,
                 lastname = lastname,
                 birthYear = birthYear,
-                parent1Id = 0,
-                parent2Id = 0
+                parent1Id = parent1ID,
+                parent2Id = parent2ID
             });
-
             Console.ReadKey();
+            Console.WriteLine("");
             db.BabySharkDooDooDoo();
 
         }

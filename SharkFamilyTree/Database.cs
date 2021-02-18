@@ -87,9 +87,25 @@ namespace SharkFamilyTree
             AddPerson(new PersonsOrSharks { firstname = "Aunty", lastname = "Von Sharkton", birthYear = 1985, parent1Id = 6, parent2Id = 5 });
         }
 
-        public void GetSharkId()
+        public int GetSharkId(string firstname, string lastname)
         {
+            var sql = $"SELECT TOP 1 Id FROM {TableName} WHERE Firstname = @Fname AND Lastname = @Lname;";
+            var parameters = new (string, string)[]
+            {
+                ("@Fname", firstname),
+                ("@Lname", lastname),
+            };
 
+            var dt = GetDataTable(sql, parameters);
+            if (dt.Rows.Count == 0)
+            {
+                Console.WriteLine("The person does not exist");
+                return 0;
+            }
+
+            var row = dt.Rows[0];
+            var id = (int)row["Id"];
+            return id;
         }
 
         public void AddParents()
