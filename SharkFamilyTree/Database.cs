@@ -163,38 +163,52 @@ namespace SharkFamilyTree
             PrintNameList(dt);
         }
 
-        public void ListFamily()
+        public void ListFamily(string lastname)
         {
-
+            var sql = @$"SELECT Firstname, Lastname FROM {TableName} WHERE Lastname = '{lastname}'";
+            var dt = GetDataTable(sql);
+            PrintNameList(dt);
         }
 
         public void BabySharkDooDooDoo()
         {
             Console.WriteLine("");
             UpdateNames("Baby-Yellow", "Shark", "Baby", "Shark");
-            UpdateNames("Baby-Blue", "Shark", "Baby", "Shark");
-            UpdateNames("Baby-Pink", "Shark", "Baby", "Shark");
 
             string songColumn = "Song";
 
             AddColumn(songColumn);
-            //TODO: AddToSong(Sharkfamily, doo, doo, doo, doo, doo, doo)
-            
-            //PrintLyrics();
+            AddToSong();
+
+            PrintLyrics(GetSharkId("Baby", "Shark"));
+            PrintLyrics(GetSharkId("Mommy", "Shark"));
+            PrintLyrics(GetSharkId("Daddy", "Shark"));
+            PrintLyrics(GetSharkId("Grandma", "Shark"));
+            PrintLyrics(GetSharkId("Grandpa", "Shark"));
             Console.WriteLine($" Let's go hunt, doo, doo, doo, doo, doo, doo" +
             $"\n Let's go hunt, doo, doo,…");
         }
 
         private void AddToSong()
         {
-            
-
+            string sql = $"UPDATE {TableName} SET Song = 'doo, doo, doo, doo, doo, doo'";
+            ExecuteSQL(sql);
         }
 
-        private void PrintLyrics()
+        private void PrintLyrics(int id)
         {
+            var sql = @$"SELECT TOP 1 Firstname, Lastname, Song FROM {TableName} WHERE Id = '{id}'";
+            var dt = GetDataTable(sql);
 
+            int i = 0;
+            do
+            {
+                PrintSharkList(dt);
+                i++;
 
+            } while (i < 3);
+            PrintNameList(dt);
+            Console.WriteLine("");
         }
 
         private int GetParentID(int Id, int parentNum)
@@ -217,6 +231,14 @@ namespace SharkFamilyTree
             foreach (DataRow item in dataTable.Rows)
             {
                 Console.WriteLine($" {item["Firstname"]} {item["Lastname"]}");
+            }
+        }
+
+        private void PrintSharkList(DataTable dataTable)
+        {
+            foreach (DataRow item in dataTable.Rows)
+            {
+                Console.WriteLine($" {item["Firstname"]} {item["Lastname"]}, {item["Song"]}");
             }
         }
 

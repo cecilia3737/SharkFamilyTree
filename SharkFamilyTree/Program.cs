@@ -20,7 +20,7 @@ namespace SharkFamilyTree
                 $"\n" +
                 $"\n Grandma and Grandpa Shark get a babyboy-shark." +
                 $"\n This is the Shark-family: ");
-    //TODO: db.ListOfFamily("Shark");
+                db.ListFamily("Shark");
 
             Console.ReadKey();
             Console.WriteLine($"" +
@@ -43,7 +43,7 @@ namespace SharkFamilyTree
             Console.ReadKey();
             Console.WriteLine($"" +
                 $"\n SCANDAL!! In the Shark-family, Granpapy Von Sharkton had an" +
-                $"\n affair with unknown shark. Mama Shark got a half sibling, Uncle Von Sharkton.");
+                $"\n affair with unknown shark. Mama Shark got a half-sibling, Uncle Von Sharkton.");
 
             int parentID = db.GetSharkId("Granpapy", "Von Sharkton");
             int unknownParent = 0;
