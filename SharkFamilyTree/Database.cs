@@ -107,7 +107,7 @@ namespace SharkFamilyTree
                 {
                     cmd.Parameters.AddWithValue(item.Item1, item.Item2);
                 }
-                Console.WriteLine($"{cmd.ExecuteNonQuery()} rows affected!");
+                cmd.ExecuteNonQuery();
             }
 
             cnn.Close();
@@ -140,7 +140,6 @@ namespace SharkFamilyTree
             var conString = string.Format(connectionString, DatabaseName);
             var cnn = new SqlConnection(conString);
             cnn.Open();
-            Console.WriteLine($"Using database: {cnn.Database}");
             return cnn;
         }
 
