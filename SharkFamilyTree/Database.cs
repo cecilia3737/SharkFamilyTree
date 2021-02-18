@@ -87,6 +87,57 @@ namespace SharkFamilyTree
             AddPerson(new PersonsOrSharks { firstname = "Aunty", lastname = "Von Sharkton", birthYear = 1985, parent1Id = 6, parent2Id = 5 });
         }
 
+        public void GetSharkId()
+        {
+
+        }
+
+        public void AddParents()
+        {
+
+        }
+
+        public void UpdateNames()
+        {
+
+        }
+
+        public void ListSiblings()
+        {
+
+        }
+
+        public void ListFamily()
+        {
+
+        }
+
+        public void BabySharkDooDooDoo()
+        {
+            //UpdateName(Baby-Yellow, Shark, Baby, Shark);
+            //UpdateName(Baby-Blue, Shark, Baby, Shark);
+            //UpdateName(Baby-Pink, Shark, Baby, Shark);
+
+            string songColumn = "Song";
+
+            AddColumn(songColumn);
+            //TODO: AddToSong(Sharkfamily, doo, doo, doo, doo, doo, doo)
+            Console.WriteLine($"Let's go hunt, doo, doo, doo, doo, doo, doo" +
+            $"\nLet's go hunt, doo, doo,…");
+        }
+
+        private void AddColumn(string columnName)
+        {
+            string sql = $"ALTER TABLE {TableName} ADD {columnName} varchar(255)";
+            ExecuteSQL(sql);
+        }
+
+        private void AddToSong()
+        {
+            
+
+        }
+
         //SQL method without parameters
         private void ExecuteSQL(string sql)
         {

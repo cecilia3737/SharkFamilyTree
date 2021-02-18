@@ -58,8 +58,8 @@ namespace SharkFamilyTree
             firstname = "Baby-Yellow";
             lastname = "Shark";
             birthYear = 2016;
-            //TODO: int parent1ID = db.GetPersonID(Mommy, Shark);
-            //TODO: int parent1ID = db.GetPersonID(Daddy, Shark);
+            //TODO: int parent1ID = db.GetSharkId(Mommy, Shark);
+            //TODO: int parent1ID = db.GetSharkId(Daddy, Shark);
 
             db.AddPerson(new PersonsOrSharks
             {
@@ -99,16 +99,8 @@ namespace SharkFamilyTree
                 parent2Id = 0
             });
 
-            // TODO: Add in database-class
-            //db.BabySharkDooDooDoo();
-            //UpdateName(Baby-Yellow, Shark, Baby, Shark);
-            //UpdateName(Baby-Blue, Shark, Baby, Shark);
-            //UpdateName(Baby-Pink, Shark, Baby, Shark);
-
-            //TODO: AddColumn(Song)
-            //TODO: AddToSong(Sharkfamily, doo, doo, doo, doo, doo, doo)
-            //Console.WriteLine($"Let's go hunt, doo, doo, doo, doo, doo, doo" +
-            //$"\nLet's go hunt, doo, doo,…");
+            Console.ReadKey();
+            db.BabySharkDooDooDoo();
 
         }
     }
