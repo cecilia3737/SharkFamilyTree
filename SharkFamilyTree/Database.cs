@@ -21,12 +21,12 @@ namespace SharkFamilyTree
             try
             {
                 ExecuteSQL(sql);
-                Console.WriteLine($"Database {newdatabase} was created");
+                Console.WriteLine($" Database {newdatabase} was created");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                Console.WriteLine($"Database {newdatabase} already exist");
+                Console.WriteLine($" Database {newdatabase} already exist");
             }
 
             DatabaseName = newdatabase;
@@ -49,19 +49,19 @@ namespace SharkFamilyTree
             try
             {
                 ExecuteSQL(sql);
-                Console.WriteLine($"New table was created: {TableName}");
+                Console.WriteLine($" New table was created: {TableName}");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                Console.WriteLine($"{TableName} already exist");
+                Console.WriteLine($" {TableName} already exist");
             }
         }
 
         //Add person/shark to database
-        public void AddPerson(PersonsOrSharks Shark)
+        public void AddShark(PersonsOrSharks Shark)
         {
-            string sql = $"INSERT INTO {TableName} (Firstname, Lastname, Birthyear, Deathyear, Parent1, Parent2) VALUES (@FName, @LName, @BYear, @DYear, @Mother, @Father)";
+            string sql = $"INSERT INTO {TableName} (Firstname, Lastname, Birthyear, Deathyear, Parent1, Parent2) VALUES (@FName, @LName, @BYear, @DYear, @Par1, @Par2)";
 
             var parameters = new (string, string)[]
             {
@@ -69,8 +69,8 @@ namespace SharkFamilyTree
                 ("@LName", Shark.lastname),
                 ("@BYear", Shark.birthYear.ToString()),
                 ("@DYear", Shark.deathYear.ToString()),
-                ("@Mother", Shark.parent1Id.ToString()),
-                ("@Father", Shark.parent2Id.ToString()),
+                ("@Par1", Shark.parent1Id.ToString()),
+                ("@Par2", Shark.parent2Id.ToString()),
             };
             ExecuteSQLWithPar(sql, parameters);
         }
@@ -78,22 +78,34 @@ namespace SharkFamilyTree
         //Add sharks to database
         public void AddSharkData()
         {
-            AddPerson(new PersonsOrSharks { firstname = "Grandma", lastname = "Shark", birthYear = 1961 });
-            AddPerson(new PersonsOrSharks { firstname = "Grandpa", lastname = "Shark", birthYear = 1959 });
-            AddPerson(new PersonsOrSharks { firstname = "Daddy", lastname = "Shark", birthYear = 1986, parent1Id = 1, parent2Id = 2 });
-            AddPerson(new PersonsOrSharks { firstname = "Mommy", lastname = "Von Sharkton", birthYear = 1989, parent1Id = 6, parent2Id = 5 });
-            AddPerson(new PersonsOrSharks { firstname = "Granpapy", lastname = "Von Sharkton", birthYear = 1954 });
-            AddPerson(new PersonsOrSharks { firstname = "Granny", lastname = "Von Sharkton", birthYear = 1964, deathYear = 2012 });
-            AddPerson(new PersonsOrSharks { firstname = "Aunty", lastname = "Von Sharkton", birthYear = 1985, parent1Id = 6, parent2Id = 5 });
+            AddShark(new PersonsOrSharks { firstname = "Grandma", lastname = "Shark", birthYear = 1961 });
+            AddShark(new PersonsOrSharks { firstname = "Grandpa", lastname = "Shark", birthYear = 1959 });
+            AddShark(new PersonsOrSharks { firstname = "Daddy", lastname = "Shark", birthYear = 1986, parent1Id = 1, parent2Id = 2 });
+            AddShark(new PersonsOrSharks { firstname = "Mommy", lastname = "Von Sharkton", birthYear = 1989 });
+            AddShark(new PersonsOrSharks { firstname = "Granpapy", lastname = "Von Sharkton", birthYear = 1954 });
+            AddShark(new PersonsOrSharks { firstname = "Granny", lastname = "Von Sharkton", birthYear = 1964, deathYear = 2012 });
+            AddShark(new PersonsOrSharks { firstname = "Aunty", lastname = "Von Sharkton", birthYear = 1985, parent1Id = 6, parent2Id = 5 });
+        }
+
+        public void AddChild(string firstname, string lastname, int birthYear, int parent1Id, int parent2Id)
+        {
+            AddShark(new PersonsOrSharks
+            {
+                firstname = firstname,
+                lastname = lastname,
+                birthYear = birthYear,
+                parent1Id = parent1Id,
+                parent2Id = parent2Id
+            });
         }
 
         public int GetSharkId(string firstname, string lastname)
         {
-            var sql = $"SELECT TOP 1 Id FROM {TableName} WHERE Firstname = @Fname AND Lastname = @Lname;";
+            var sql = $"SELECT TOP 1 Id FROM {TableName} WHERE Firstname = @Firstname AND Lastname = @Lastname;";
             var parameters = new (string, string)[]
             {
-                ("@Fname", firstname),
-                ("@Lname", lastname),
+                ("@Firstname", firstname),
+                ("@Lastname", lastname),
             };
 
             var dt = GetDataTable(sql, parameters);
@@ -108,14 +120,36 @@ namespace SharkFamilyTree
             return id;
         }
 
-        public void AddParents()
+        public void AddParents(string firstName, string lastName, string parent1FN, string parent1LN, string parent2FN, string parent2LN)
         {
+                int childId = GetSharkId(firstName, lastName);
+                int motherId = GetSharkId(parent1FN, parent1LN);
+                int fatherId = GetSharkId(parent2FN, parent2LN);
 
-        }
+                string sql = $"UPDATE {TableName} SET Parent1 = @Par1, Parent2 = @Par2 WHERE Id = @Id";
+                var parameters = new (string, string)[]
+                {
+                ("@Par1", motherId.ToString()),
+                ("@Par2", fatherId.ToString()),
+                ("@Id", childId.ToString()),
+                };
+                ExecuteSQLWithPar(sql, parameters);
 
-        public void UpdateNames()
+            }
+
+        public void UpdateNames(string firstName, string lastName, string newFirstName, string newLastName)
         {
+            int id = GetSharkId(firstName, lastName);
 
+            string sql = $"UPDATE {TableName} SET Firstname = @FirstName, Lastname = @LastName WHERE Id = @Id";
+            var parameters = new (string, string)[]
+            {
+                ("@FirstName", newFirstName),
+                ("@LastName", newLastName),
+                ("@Id", id.ToString()),
+            };
+
+            ExecuteSQLWithPar(sql, parameters);
         }
 
         public void ListSiblings()
@@ -130,16 +164,19 @@ namespace SharkFamilyTree
 
         public void BabySharkDooDooDoo()
         {
-            //UpdateName(Baby-Yellow, Shark, Baby, Shark);
-            //UpdateName(Baby-Blue, Shark, Baby, Shark);
-            //UpdateName(Baby-Pink, Shark, Baby, Shark);
+            Console.WriteLine("");
+            UpdateNames("Baby-Yellow", "Shark", "Baby", "Shark");
+            UpdateNames("Baby-Blue", "Shark", "Baby", "Shark");
+            UpdateNames("Baby-Pink", "Shark", "Baby", "Shark");
 
             string songColumn = "Song";
 
             AddColumn(songColumn);
             //TODO: AddToSong(Sharkfamily, doo, doo, doo, doo, doo, doo)
-            Console.WriteLine($"Let's go hunt, doo, doo, doo, doo, doo, doo" +
-            $"\nLet's go hunt, doo, doo,…");
+            
+            //PrintLyrics();
+            Console.WriteLine($" Let's go hunt, doo, doo, doo, doo, doo, doo" +
+            $"\n Let's go hunt, doo, doo,…");
         }
 
         private void AddColumn(string columnName)
@@ -151,6 +188,12 @@ namespace SharkFamilyTree
         private void AddToSong()
         {
             
+
+        }
+
+        private void PrintLyrics()
+        {
+
 
         }
 
