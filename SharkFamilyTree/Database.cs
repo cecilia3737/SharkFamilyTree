@@ -111,7 +111,7 @@ namespace SharkFamilyTree
             var dt = GetDataTable(sql, parameters);
             if (dt.Rows.Count == 0)
             {
-                Console.WriteLine("The person does not exist");
+                Console.WriteLine(" The person does not exist");
                 return 0;
             }
 
@@ -152,9 +152,15 @@ namespace SharkFamilyTree
             ExecuteSQLWithPar(sql, parameters);
         }
 
-        public void ListSiblings()
+        public void ListSiblings(string firstname, string lastname)
         {
+            int Id = GetSharkId(firstname, lastname);
+            int par1Id = GetParentID(Id, 1);
+            int par2Id = GetParentID(Id, 2);
 
+            var sql = @$"SELECT Firstname, Lastname FROM {TableName} WHERE Parent1 = {par1Id} OR Parent2 = {par2Id}";
+            var dt = GetDataTable(sql);
+            PrintNameList(dt);
         }
 
         public void ListFamily()
@@ -179,12 +185,6 @@ namespace SharkFamilyTree
             $"\n Let's go hunt, doo, doo,…");
         }
 
-        private void AddColumn(string columnName)
-        {
-            string sql = $"ALTER TABLE {TableName} ADD {columnName} varchar(255)";
-            ExecuteSQL(sql);
-        }
-
         private void AddToSong()
         {
             
@@ -195,6 +195,35 @@ namespace SharkFamilyTree
         {
 
 
+        }
+
+        private int GetParentID(int Id, int parentNum)
+        {
+            var sql = @$"SELECT TOP 1 Parent{parentNum} FROM {TableName} WHERE Id = {Id} ";
+            var dt = GetDataTable(sql);
+            if (dt.Rows.Count == 0)
+            {
+                Console.WriteLine(" The person does not exist");
+                return 0;
+            }
+
+            var row = dt.Rows[0];
+            var id = (int)row[$"Parent{parentNum}"];
+            return id;
+        }
+
+        private void PrintNameList(DataTable dataTable)
+        {
+            foreach (DataRow item in dataTable.Rows)
+            {
+                Console.WriteLine($" {item["Firstname"]} {item["Lastname"]}");
+            }
+        }
+
+        private void AddColumn(string columnName)
+        {
+            string sql = $"ALTER TABLE {TableName} ADD {columnName} varchar(255)";
+            ExecuteSQL(sql);
         }
 
         //SQL method without parameters
@@ -252,7 +281,6 @@ namespace SharkFamilyTree
             cnn.Open();
             return cnn;
         }
-
 
     }
 }

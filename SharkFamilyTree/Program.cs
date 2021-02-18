@@ -27,18 +27,18 @@ namespace SharkFamilyTree
                 $"\n Daddy Shark meet Mommy Von Sharkton." +
                 $"\n Daddy get to meet Mommy Von Sharktons father: Granpapy Von Sharkton." +
                 $"\n Sadly Granny Von Sharkton passed away a few years ago.");            
-            db.AddParents("Mommy", "Von Sharkton", "Granpapy", "Von Sharkton", "Granny", "Von Sharkton");
+                db.AddParents("Mommy", "Von Sharkton", "Granny", "Von Sharkton", "Granpapy", "Von Sharkton" );
             
             Console.ReadKey();
             Console.WriteLine($"" +
                 $"\n Daddy learns that Mommy have siblings." +
-                $"\n Mommy Von Sharktons siblings:");            
-    //TODO: db.ListSiblings("Mommy", "Von Sharkton");
+                $"\n The Von Sharkton siblings:");            
+                db.ListSiblings("Mommy", "Von Sharkton");
             
             Console.ReadKey();
             Console.WriteLine($"" +
                 $"\n Daddy Shark and Mommy Von Sharkton get married.");            
-            db.UpdateNames("Mommy", "Von Sharkton", "Mommy", "Shark");
+                db.UpdateNames("Mommy", "Von Sharkton", "Mommy", "Shark");
             
             Console.ReadKey();
             Console.WriteLine($"" +
@@ -48,11 +48,11 @@ namespace SharkFamilyTree
             int parentID = db.GetSharkId("Granpapy", "Von Sharkton");
             int unknownParent = 0;
 
-            db.AddChild("Uncle", "Von Sharkton", 1986, parentID, unknownParent);
+            db.AddChild("Uncle", "Von Sharkton", 1986, unknownParent, parentID);
 
             Console.WriteLine($"" +
-                $"\n This is Mommy Sharks siblings:");
-    //TODO: db.ListSiblings("Mommy", "Shark");
+                $"\n This is the new list of siblings:");
+                db.ListSiblings("Mommy", "Shark");
             
             Console.ReadKey();
             Console.WriteLine($"" +
@@ -67,8 +67,8 @@ namespace SharkFamilyTree
             Console.WriteLine($"" +
                 $"\n Two years later, Baby-Yellow got two sibling!" +
                 $"\n The twins was born, Baby-Blue and Baby-Pink");
-            db.AddChild("Baby-Blue", "Shark", 2018, parent1ID, parent2ID);
-            db.AddChild("Baby-Pink", "Shark", 2018, parent1ID, parent2ID);
+                db.AddChild("Baby-Blue", "Shark", 2018, parent1ID, parent2ID);
+                db.AddChild("Baby-Pink", "Shark", 2018, parent1ID, parent2ID);
 
             Console.ReadKey();           
             db.BabySharkDooDooDoo();
