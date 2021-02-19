@@ -152,6 +152,13 @@ namespace SharkFamilyTree
             ExecuteSQLWithPar(sql, parameters);
         }
 
+        public void DeleteShark(string firstname, string lastname)
+        {
+            int Id = GetSharkId(firstname, lastname);
+            string sql = $"DELETE FROM {TableName} WHERE Id = {Id}";
+            ExecuteSQL(sql);
+        }
+
         public void ListSiblings(string firstname, string lastname)
         {
             int Id = GetSharkId(firstname, lastname);
@@ -166,6 +173,33 @@ namespace SharkFamilyTree
         public void ListFamily(string lastname)
         {
             var sql = @$"SELECT Firstname, Lastname FROM {TableName} WHERE Lastname = '{lastname}'";
+            var dt = GetDataTable(sql);
+            PrintNameList(dt);
+        }
+
+        public void ListParents(string firstname, string lastname)
+        {
+            int Id = GetSharkId(firstname, lastname);
+            int par1Id = GetParentID(Id, 1);
+            int par2Id = GetParentID(Id, 2);
+
+            var sql = @$"SELECT Firstname, Lastname FROM {TableName} WHERE Id = {par1Id} OR Id = {par2Id}";
+            var dt = GetDataTable(sql);
+            PrintNameList(dt);
+        }
+
+        public void ListDeadSharks()
+        {
+            Console.WriteLine(" " +
+                $"\n This is the sharks who are no longer with us:");
+            var sql = @$"SELECT Firstname, Lastname FROM {TableName} WHERE Deathyear > 0 ";
+            var dt = GetDataTable(sql);
+            PrintNameList(dt);
+        }
+
+        public void ListByBirthyear(int birthyear)
+        {
+            var sql = @$"SELECT Firstname, Lastname FROM {TableName} WHERE Birthyear = {birthyear}";
             var dt = GetDataTable(sql);
             PrintNameList(dt);
         }
